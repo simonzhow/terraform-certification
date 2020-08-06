@@ -1,0 +1,18 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_eip.lb" [label = "aws_eip.lb", shape = "box"]
+		"[root] aws_instance.myec2" [label = "aws_instance.myec2", shape = "box"]
+		"[root] aws_security_group.allow_tls" [label = "aws_security_group.allow_tls", shape = "box"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] aws_eip.lb" -> "[root] aws_instance.myec2"
+		"[root] aws_instance.myec2" -> "[root] provider.aws"
+		"[root] aws_security_group.allow_tls" -> "[root] aws_eip.lb"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_security_group.allow_tls"
+		"[root] provider.aws (close)" -> "[root] aws_security_group.allow_tls"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider.aws (close)"
+	}
+}
+
